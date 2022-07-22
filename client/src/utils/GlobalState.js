@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from "react";
 import { useProductReducer } from './reducers'
-
+// one file to check
 const StoreContext = createContext();
 const { Provider } = StoreContext;
 

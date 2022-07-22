@@ -13,7 +13,7 @@ import {
 import { QUERY_PRODUCTS } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
-
+// check this file
 function Detail() {
   const [state, dispatch] = useStoreContext();
   const { id } = useParams();
