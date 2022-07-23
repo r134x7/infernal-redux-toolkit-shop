@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+const initialState = { // objects taken from GlobalState.js
+    categories: [],
+    currentCategory: "",
+};
 
 const categoriesSlice = createSlice({
     name: "categories",
