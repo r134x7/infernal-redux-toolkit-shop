@@ -15,9 +15,9 @@ function ProductList() {
   // const [state, dispatch] = useStoreContext();
 
   // const { currentCategory } = state;
-  const currentCategory = useSelector(state => state.categories);
+  const catState = useSelector(state => state.categories); // not checking what was inside catState made it take very very long to figure out why the products didn't render.
 
-  const products = useSelector(state => state.products);
+  const state = useSelector(state => state.products);
   const dispatch = useDispatch();
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
@@ -55,21 +55,22 @@ function ProductList() {
   // }, [products, data, loading, dispatch]);
 
   function filterProducts() {
-    if (!currentCategory) {
+    if (!catState.currentCategory) {
       // return state.products;
-      return products;
+      return state.products;
     }
 
     // return state.products.filter(
-    return products.filter(
-      (product) => product.category._id === currentCategory
+    return state.products.filter(
+      (product) => product.category._id === catState.currentCategory
     );
   }
-
+  
+  
   return (
     <div className="my-2">
       <h2>Our Products:</h2>
-      {products.length ? (
+      {state.products.length ? (
         <div className="flex-row">
           {filterProducts().map((product) => (
             <ProductItem

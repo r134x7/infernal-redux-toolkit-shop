@@ -11,7 +11,7 @@ import { idbPromise } from "../../utils/helpers";
 // check this file
 function ProductItem(item) {
   // const [state, dispatch] = useStoreContext();
-  const cart = useSelector(state => state.cart);
+  const state = useSelector(state => state.cart);
   const dispatch = useDispatch();
 
   const {
@@ -22,10 +22,14 @@ function ProductItem(item) {
     quantity
   } = item;
 
+  // console.log(image);
+  // console.log(name);
+  // console.log(_id);
+  // console.log(cart);
   // const { cart } = state
 
   const addToCart = () => {
-    const itemInCart = cart.find((cartItem) => cartItem._id === _id)
+    const itemInCart = state.cart.find((cartItem) => cartItem._id === _id)
     if (itemInCart) {
       // dispatch({
       //   type: "UPDATE_CART_QUANTITY",
