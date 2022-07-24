@@ -20,6 +20,9 @@ const Cart = () => {
   const state = useSelector(state => state.cart)
   const dispatch = useDispatch();
 
+  // console.log(state);
+  // console.log(state.cart);
+
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
   useEffect(() => {
@@ -80,7 +83,7 @@ const Cart = () => {
   }
 
   // if (!state.cartOpen) {
-  if (!state.cart.cartOpen) {
+  if (!state.cartOpen) {
     return (
       <div className="cart-closed" onClick={toggleCart}>
         <span role="img" aria-label="trash">

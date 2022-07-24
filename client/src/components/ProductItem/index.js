@@ -14,6 +14,11 @@ function ProductItem(item) {
   const state = useSelector(state => state.cart);
   const dispatch = useDispatch();
 
+  // console.log(state);
+  // console.log(state.cart);
+
+  // state.find()
+  
   const {
     image,
     name,
@@ -21,7 +26,10 @@ function ProductItem(item) {
     price,
     quantity
   } = item;
-
+  
+  // console.log(state.cart.find((cartItem) => cartItem._id === _id));
+  // // state.cart.
+  // console.log(state.cart.filter((cartItem) => cartItem._id !== _id));
   // console.log(image);
   // console.log(name);
   // console.log(_id);
@@ -30,6 +38,7 @@ function ProductItem(item) {
 
   const addToCart = () => {
     const itemInCart = state.cart.find((cartItem) => cartItem._id === _id)
+    console.log(itemInCart);
     if (itemInCart) {
       // dispatch({
       //   type: "UPDATE_CART_QUANTITY",

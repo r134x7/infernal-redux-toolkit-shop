@@ -22,7 +22,7 @@ const cartSlice = createSlice({
             return {
                 ...state,
                 cartOpen: true,
-                cart: [...state.cart, action.payload.products],
+                cart: [...state.cart, action.payload],
             };
         },
         UPDATE_CART_QUANTITY(state, action) {
