@@ -4,7 +4,7 @@ import ProductItem from '../ProductItem';
 // import { useStoreContext } from '../../utils/GlobalState';
 // import { UPDATE_PRODUCTS } from '../../utils/actions';
 import { useSelector, useDispatch } from 'react-redux';
-import categoriesReducer, { UPDATE_CURRENT_CATEGORY } from '../../features/categories';
+// import categoriesReducer, { UPDATE_CURRENT_CATEGORY } from '../../features/categories';
 import productsReducer, { UPDATE_PRODUCTS } from '../../features/products';
 import { useQuery } from '@apollo/client';
 import { QUERY_PRODUCTS } from '../../utils/queries';
@@ -15,44 +15,47 @@ function ProductList() {
   // const [state, dispatch] = useStoreContext();
 
   // const { currentCategory } = state;
-  const currentCategory = categoriesReducer(state => state.categories);
+  const currentCategory = useSelector(state => state.categories);
 
-  const products = productsReducer(state => state.products);
+  const products = useSelector(state => state.products);
   const dispatch = useDispatch();
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
   useEffect(() => {
     if (data) {
-      // dispatch({
-      //   type: UPDATE_PRODUCTS,
-      //   products: data.products,
-      // });
-      dispatch(productsReducer(products, UPDATE_PRODUCTS({
-        products: data.products
-      })))
+      dispatch({
+        type: "UPDATE_PRODUCTS",
+        products: data.products,
+      });
+      // dispatch(productsReducer(products, UPDATE_PRODUCTS({
+      //   products: data.products
+      // })))
       data.products.forEach((product) => {
         idbPromise('products', 'put', product);
       });
     } else if (!loading) {
       idbPromise('products', 'get').then((products) => {
-        // dispatch({
-        //   type: UPDATE_PRODUCTS,
-        //   products: products,
-        // });
-        dispatch(productsReducer(products, UPDATE_PRODUCTS({
-          products: products
-        })))
+        dispatch({
+          type: "UPDATE_PRODUCTS",
+          products: products,
+        });
+        // dispatch(productsReducer(products, UPDATE_PRODUCTS({
+        //   products: products
+        // })))
       });
     }
   }, [data, loading, dispatch]);
+  // }, [products, data, loading, dispatch]);
 
   function filterProducts() {
     if (!currentCategory) {
-      return state.products;
+      // return state.products;
+      return products;
     }
 
-    return state.products.filter(
+    // return state.products.filter(
+    return products.filter(
       (product) => product.category._id === currentCategory
     );
   }
@@ -60,7 +63,7 @@ function ProductList() {
   return (
     <div className="my-2">
       <h2>Our Products:</h2>
-      {state.products.length ? (
+      {products.length ? (
         <div className="flex-row">
           {filterProducts().map((product) => (
             <ProductItem

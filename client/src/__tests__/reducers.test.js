@@ -97,7 +97,7 @@ test('ADD_MULTIPLE_TO_CART', () => {
   // });
 
   let newState = cartReducer(initialState, ADD_MULTIPLE_TO_CART({ products: [{}, {}] }));
-
+  console.log(newState.cart);
   expect(newState.cart.length).toBe(4);
   expect(initialState.cart.length).toBe(2);
 });
