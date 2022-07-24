@@ -7,9 +7,9 @@ import { useQuery } from '@apollo/client';
 //   UPDATE_CURRENT_CATEGORY,
 // } from '../../utils/actions';
 
-import categoriesReducer, { UPDATE_CATEGORIES, UPDATE_CURRENT_CATEGORY} from "../../features/categories"
+import { UPDATE_CATEGORIES, UPDATE_CURRENT_CATEGORY} from "../../features/categories"
 import { useSelector, useDispatch } from 'react-redux';
-import { QUERY_CATEGORIES } from '../../utils/queries';
+import { QUERY_CATEGORIES } from '../../utils/queries'; // here is where the categories appear on page
 import { idbPromise } from '../../utils/helpers';
 // check this file
 function CategoryMenu() {
@@ -24,22 +24,28 @@ function CategoryMenu() {
 
   useEffect(() => {
     if (categoryData) {
-      dispatch({
-        type: "UPDATE_CATEGORIES",
-        categories: categoryData.categories,
-      });
+      // dispatch({
+      //   type: "UPDATE_CATEGORIES",
+      //   categories: categoryData.categories,
+      // });
       // dispatch(categoriesReducer(state, UPDATE_CATEGORIES({
       //   categories: categoryData.categories
       // })))
+      dispatch(UPDATE_CATEGORIES({ // this is how you get dispatch to work with redux toolkit, the action is imported and used like a function, no type needed!
+        categories: categoryData.categories
+      }))
       categoryData.categories.forEach((category) => {
         idbPromise('categories', 'put', category);
       });
     } else if (!loading) {
       idbPromise('categories', 'get').then((categories) => {
-        dispatch({
-          type: "UPDATE_CATEGORIES",
-          categories: categories,
-        });
+        // dispatch({
+        //   type: "UPDATE_CATEGORIES",
+        //   categories: categories,
+        // });
+        dispatch(UPDATE_CATEGORIES({
+          categories: categories
+        }))
         // dispatch(categoriesReducer(state, UPDATE_CATEGORIES({
         //   categories: categories
         // })))
@@ -49,10 +55,13 @@ function CategoryMenu() {
   // }, [state, categoryData, loading, dispatch]);
 
   const handleClick = (id) => {
-    dispatch({
-      type: "UPDATE_CURRENT_CATEGORY",
-      currentCategory: id,
-    });
+    // dispatch({
+    //   type: "UPDATE_CURRENT_CATEGORY",
+    //   currentCategory: id,
+    // });
+  dispatch(UPDATE_CURRENT_CATEGORY({
+      currentCategory: id
+  }))
     // dispatch(categoriesReducer(state, UPDATE_CURRENT_CATEGORY({
     //   currentCategory: id
     // })))
@@ -68,6 +77,10 @@ function CategoryMenu() {
   // )
 
   // console.log(state.categories);
+
+  // console.log(state);
+  // console.log(state.categories);
+  // console.log(categoryData);
 
   return (
     <div>
