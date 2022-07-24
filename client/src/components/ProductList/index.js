@@ -5,9 +5,9 @@ import ProductItem from '../ProductItem';
 // import { UPDATE_PRODUCTS } from '../../utils/actions';
 import { useSelector, useDispatch } from 'react-redux';
 // import categoriesReducer, { UPDATE_CURRENT_CATEGORY } from '../../features/categories';
-import productsReducer, { UPDATE_PRODUCTS } from '../../features/products';
+import { UPDATE_PRODUCTS } from '../../features/products';
 import { useQuery } from '@apollo/client';
-import { QUERY_PRODUCTS } from '../../utils/queries';
+import { QUERY_PRODUCTS } from '../../utils/queries'; // here is where the items are spawned on page
 import { idbPromise } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
 // check this file
@@ -24,10 +24,13 @@ function ProductList() {
 
   useEffect(() => {
     if (data) {
-      dispatch({
-        type: "UPDATE_PRODUCTS",
+      // dispatch({
+      //   type: "UPDATE_PRODUCTS",
+      //   products: data.products,
+      // });
+      dispatch(UPDATE_PRODUCTS({
         products: data.products,
-      });
+      }))
       // dispatch(productsReducer(products, UPDATE_PRODUCTS({
       //   products: data.products
       // })))
@@ -36,10 +39,13 @@ function ProductList() {
       });
     } else if (!loading) {
       idbPromise('products', 'get').then((products) => {
-        dispatch({
-          type: "UPDATE_PRODUCTS",
-          products: products,
-        });
+        // dispatch({
+        //   type: "UPDATE_PRODUCTS",
+        //   products: products,
+        // });
+        dispatch(UPDATE_PRODUCTS({
+          products: products
+        }))
         // dispatch(productsReducer(products, UPDATE_PRODUCTS({
         //   products: products
         // })))
