@@ -1,34 +1,27 @@
-// Completed?
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js'; // loads stripe NPM
 import { useLazyQuery } from '@apollo/client';
 import { QUERY_CHECKOUT } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 import CartItem from '../CartItem';
 import Auth from '../../utils/auth';
-// import { useStoreContext } from '../../utils/GlobalState';
-// import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../utils/actions';
-import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../features/cart";
+import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../features/cart"; // redux toolkit cartSlice actions
 import './style.css';
-// check this file
-const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+
+const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx'); // test API key
 
 const Cart = () => {
-  // const [state, dispatch] = useStoreContext();
 
-  const state = useSelector(state => state.cart)
-  const dispatch = useDispatch();
-
-  // console.log(state);
-  // console.log(state.cart);
+  const state = useSelector(state => state.cart) // gets the state from the store
+  const dispatch = useDispatch(); // will dispatch the action to the store
 
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
   useEffect(() => {
     if (data) {
-      stripePromise.then((res) => {
-        res.redirectToCheckout({ sessionId: data.checkout.session });
+      stripePromise.then((res) => { // runs Stripe API
+        res.redirectToCheckout({ sessionId: data.checkout.session }); 
       });
     }
   }, [data]);
@@ -36,31 +29,22 @@ const Cart = () => {
   useEffect(() => {
     async function getCart() {
       const cart = await idbPromise('cart', 'get');
-      // dispatch({ type: "ADD_MULTIPLE_TO_CART", products: [...cart] });
-      // dispatch(cartReducer(state, ADD_MULTIPLE_TO_CART({
-      //   products: [...cart]
-      // })))
-      dispatch(ADD_MULTIPLE_TO_CART({
+      dispatch(ADD_MULTIPLE_TO_CART({ // redux toolkit action method of useDispatch
         products: [...cart]
       }))
     }
 
-    // if (!state.cart.length) {
     if (!state.cart.length) {
       getCart();
     }
   }, [state.cart.length, dispatch]);
-  // }, [state, state.cart.length, dispatch]);
 
   function toggleCart() {
-    // dispatch({ type: "TOGGLE_CART" });
-    dispatch(TOGGLE_CART());
-    // dispatch(cartReducer(state, TOGGLE_CART()));
+    dispatch(TOGGLE_CART()); // redux toolkit action method of useDispatch
   }
 
   function calculateTotal() {
     let sum = 0;
-    // state.cart.forEach((item) => {
     state.cart.forEach((item) => {
       sum += item.price * item.purchaseQuantity;
     });
@@ -70,7 +54,6 @@ const Cart = () => {
   function submitCheckout() {
     const productIds = [];
 
-    // state.cart.forEach((item) => {
     state.cart.forEach((item) => {
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
@@ -82,7 +65,6 @@ const Cart = () => {
     });
   }
 
-  // if (!state.cartOpen) {
   if (!state.cartOpen) {
     return (
       <div className="cart-closed" onClick={toggleCart}>

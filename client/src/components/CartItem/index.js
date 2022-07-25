@@ -1,31 +1,16 @@
-// Completed?
 import React from 'react';
-// import { useStoreContext } from "../../utils/GlobalState";
 import { useDispatch } from 'react-redux';
-// import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
-import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../features/cart";
+import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../features/cart"; // redux toolkit cartSlice actions
 import { idbPromise } from "../../utils/helpers";
-// check this file
+
 const CartItem = ({ item }) => {
 
-  // const [, dispatch] = useStoreContext();
-  // const state = useSelector(state => state.cart)
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); // only useDispatch is needed and not the state of the cart i.e. useSelector(state => state.cart)
 
   const removeFromCart = item => {
-    // dispatch({
-    //   type: "REMOVE_FROM_CART",
-    //   _id: item._id
-    // });
-    dispatch(REMOVE_FROM_CART({
+    dispatch(REMOVE_FROM_CART({ // redux toolkit action method of useDispatch
       _id: item._id
     }))
-    // dispatch(
-    //   (cartReducer
-    //     (cart, REMOVE_FROM_CART
-    //       ({_id: item._id})
-    //     )
-    //   ));
     idbPromise('cart', 'delete', { ...item });
 
   };
@@ -33,37 +18,16 @@ const CartItem = ({ item }) => {
   const onChange = (e) => {
     const value = e.target.value;
     if (value === '0') {
-      // dispatch({
-      //   type: "REMOVE_FROM_CART",
-      //   _id: item._id
-      // });
-      dispatch(REMOVE_FROM_CART({
+      dispatch(REMOVE_FROM_CART({ // redux toolkit action method of useDispatch
         _id: item._id
       }))
-      // dispatch(
-      //   (cartReducer
-      //     (cart, REMOVE_FROM_CART
-      //       ({_id: item._id})
-      //     )
-      //   ));
       idbPromise('cart', 'delete', { ...item });
 
     } else {
-      // dispatch({
-      //   type: "UPDATE_CART_QUANTITY",
-        // _id: item._id,
-        // purchaseQuantity: parseInt(value)
-      // });
-      dispatch(UPDATE_CART_QUANTITY({
+      dispatch(UPDATE_CART_QUANTITY({ // redux toolkit action method of useDispatch
         _id: item._id,
         purchaseQuantity: parseInt(value)
       }))
-      // dispatch(cartReducer
-      //   (cart, UPDATE_CART_QUANTITY({  _id: item._id,
-      //   purchaseQuantity: parseInt(value)
-      //       })
-      //     )
-      //   );
       idbPromise('cart', 'put', { ...item, purchaseQuantity: parseInt(value) });
 
     }

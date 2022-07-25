@@ -1,36 +1,19 @@
-// Completed?
 import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-// import { useStoreContext } from '../../utils/GlobalState';
-// import {
-//   UPDATE_CATEGORIES,
-//   UPDATE_CURRENT_CATEGORY,
-// } from '../../utils/actions';
-
-import { UPDATE_CATEGORIES, UPDATE_CURRENT_CATEGORY} from "../../features/categories"
+import { UPDATE_CATEGORIES, UPDATE_CURRENT_CATEGORY} from "../../features/categories" // redux toolkit categorySlice actions
 import { useSelector, useDispatch } from 'react-redux';
 import { QUERY_CATEGORIES } from '../../utils/queries'; // here is where the categories appear on page
 import { idbPromise } from '../../utils/helpers';
-// check this file
+
 function CategoryMenu() {
-  // const [state, dispatch] = useStoreContext();
 
-  // const { categories } = state;
-
-  const state = useSelector(state => state.categories);
-  const dispatch = useDispatch();
+  const state = useSelector(state => state.categories); // gets the state from the store
+  const dispatch = useDispatch(); // will dispatch the action to the store
 
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
 
   useEffect(() => {
     if (categoryData) {
-      // dispatch({
-      //   type: "UPDATE_CATEGORIES",
-      //   categories: categoryData.categories,
-      // });
-      // dispatch(categoriesReducer(state, UPDATE_CATEGORIES({
-      //   categories: categoryData.categories
-      // })))
       dispatch(UPDATE_CATEGORIES({ // this is how you get dispatch to work with redux toolkit, the action is imported and used like a function, no type needed!
         categories: categoryData.categories
       }))
@@ -39,48 +22,18 @@ function CategoryMenu() {
       });
     } else if (!loading) {
       idbPromise('categories', 'get').then((categories) => {
-        // dispatch({
-        //   type: "UPDATE_CATEGORIES",
-        //   categories: categories,
-        // });
-        dispatch(UPDATE_CATEGORIES({
+        dispatch(UPDATE_CATEGORIES({ // this is how you get dispatch to work with redux toolkit, the action is imported and used like a function
           categories: categories
         }))
-        // dispatch(categoriesReducer(state, UPDATE_CATEGORIES({
-        //   categories: categories
-        // })))
       });
     }
   }, [categoryData, loading, dispatch]);
-  // }, [state, categoryData, loading, dispatch]);
 
   const handleClick = (id) => {
-    // dispatch({
-    //   type: "UPDATE_CURRENT_CATEGORY",
-    //   currentCategory: id,
-    // });
-  dispatch(UPDATE_CURRENT_CATEGORY({
+  dispatch(UPDATE_CURRENT_CATEGORY({ // this is how you get dispatch to work with redux toolkit, the action is imported and used like a function
       currentCategory: id
-  }))
-    // dispatch(categoriesReducer(state, UPDATE_CURRENT_CATEGORY({
-    //   currentCategory: id
-    // })))
+    }))
   };
-
-  // console.log(categories.categories);
-  // // console.log(categories.map((item) => item));
-  // console.log(categories.categories.name);
-  // console.log(categories.categories._id);
-
-  // const test = categories.categories.map((item) => 
-  //   item._id
-  // )
-
-  // console.log(state.categories);
-
-  // console.log(state);
-  // console.log(state.categories);
-  // console.log(categoryData);
 
   return (
     <div>

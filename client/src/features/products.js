@@ -1,15 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { initialState } from "../utils/store";
 
-const initialState = {
+const initialState = { // creating only the objects that are needed for the actions below.
   products: [],
 }
 
 const productsSlice = createSlice({
-    name: "products",
-    initialState,
-    reducers: {
-        UPDATE_PRODUCTS(state, action) {
+    name: "products", // name required
+    initialState, // initial state required
+    reducers: { // reducers is where the actions are created, the default case is automatically made and defaults to return state
+        UPDATE_PRODUCTS(state, action) { // console logging before return helps to find what is in the action
             return {
                 ...state,
                 products: [...action.payload.products],
@@ -18,6 +17,6 @@ const productsSlice = createSlice({
     }
 });
 
-export const { UPDATE_PRODUCTS } = productsSlice.actions;
+export const { UPDATE_PRODUCTS } = productsSlice.actions; // exporting the actions using destructuring
 
-export default productsSlice.reducer;
+export default productsSlice.reducer; // exporting the reducer as default

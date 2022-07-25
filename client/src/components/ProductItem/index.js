@@ -1,23 +1,14 @@
-// Completed?
 import React from "react";
 import { Link } from "react-router-dom";
 import { pluralize } from "../../utils/helpers"
-// import { useStoreContext } from "../../utils/GlobalState";
-// import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
-
 import { useSelector, useDispatch } from "react-redux";
-import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../features/cart";
+import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../features/cart"; // redux toolkit cartSlice actions
 import { idbPromise } from "../../utils/helpers";
-// check this file
+
 function ProductItem(item) {
-  // const [state, dispatch] = useStoreContext();
-  const state = useSelector(state => state.cart);
-  const dispatch = useDispatch();
-
-  // console.log(state);
-  // console.log(state.cart);
-
-  // state.find()
+  
+  const state = useSelector(state => state.cart); // gets the state of the cart
+  const dispatch = useDispatch(); // dispatches actions to the state of the cart
   
   const {
     image,
@@ -25,49 +16,24 @@ function ProductItem(item) {
     _id,
     price,
     quantity
-  } = item;
+  } = item; // destructures the item being added to the cart
   
-  // console.log(state.cart.find((cartItem) => cartItem._id === _id));
-  // // state.cart.
-  // console.log(state.cart.filter((cartItem) => cartItem._id !== _id));
-  // console.log(image);
-  // console.log(name);
-  // console.log(_id);
-  // console.log(cart);
-  // const { cart } = state
 
   const addToCart = () => {
-    const itemInCart = state.cart.find((cartItem) => cartItem._id === _id)
-    console.log(itemInCart);
+    const itemInCart = state.cart.find((cartItem) => cartItem._id === _id) // has to check if the id is in the cart
     if (itemInCart) {
-      // dispatch({
-      //   type: "UPDATE_CART_QUANTITY",
-        // _id: _id,
-        // purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
-      // });
-      dispatch(UPDATE_CART_QUANTITY({
+      dispatch(UPDATE_CART_QUANTITY({ // redux toolkit action method of useDispatch
         _id: _id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
       }))
-      // dispatch(cartReducer(cart, UPDATE_CART_QUANTITY({
-      //   _id: _id,
-      //   purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
-      // })))
       idbPromise('cart', 'put', {
         ...itemInCart,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
       });
     } else {
-      // dispatch({
-      //   type: "ADD_TO_CART",
-      //   product: { ...item, purchaseQuantity: 1 }
-      // });
-      dispatch(ADD_TO_CART({
-        ...item, purchaseQuantity: 1
+      dispatch(ADD_TO_CART({ // redux toolkit action method of useDispatch
+        product: { ...item, purchaseQuantity: 1 }
       }))
-      // dispatch(cartReducer(cart, ADD_TO_CART({
-      //   products: { ...item, purchaseQuantity: 1 }
-      // })))
       idbPromise('cart', 'put', { ...item, purchaseQuantity: 1 });
     }
   }

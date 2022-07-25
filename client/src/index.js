@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import store from "./utils/store";
 import { Provider } from "react-redux";
 
+// redux toolkit recommends using the provider and store at the root of the application hence index.js and wrapping the <App />
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
@@ -14,13 +15,6 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-
-// ReactDOM.render(
-//     <React.StrictMode>
-//       <App />
-//     </React.StrictMode>,
-//   document.getElementById('root')
-// );
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
