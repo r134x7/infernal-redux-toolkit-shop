@@ -1,6 +1,10 @@
 {
   "name": "mern-client",
   "version": "0.1.0",
+  "engines": {
+    "node": "18.x",
+    "npm": "8.x"
+    },
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
