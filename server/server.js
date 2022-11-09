@@ -23,7 +23,7 @@ app.use('/images', express.static(path.join(__dirname, '../client/public')));
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
-
+// redeploying to heroku because of: "In addition, as any applications running Node.js could potentially be impacted by CVE-2022-3786 and CVE-2022-3602, we strongly suggest that you rebuild and deploy your apps on Heroku if you are running Node.js, regardless of the stack version your application uses."
 app.get('*', (req, res) => { // wild card route: Quote from 21-MERN/12-Stu_MERN setup: "Since the React front-end application will handle its own routing, we set up a wildcard route on our server that will serve the front end whenever a request for a non-API route is received."" 
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
