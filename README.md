@@ -29,7 +29,8 @@
 
   # Deployed App
 
-  The application is deployed on Heroku: [https://shrouded-headland-69573.herokuapp.com/](https://shrouded-headland-69573.herokuapp.com/)
+  This app is no longer hosted on Heroku, it is now hosted Render. 
+  Render app link: [https://infernal-redux-toolkit-shop.onrender.com/](https://infernal-redux-toolkit-shop.onrender.com/)
   
 
   # Tests
